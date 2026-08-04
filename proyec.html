@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Inventario de Productos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f4f4f4;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    form {
+      background: #fff;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+    input, select, button {
+      margin: 5px 0;
+      padding: 8px;
+      width: 100%;
+    }
+    .error {
+      color: red;
+      font-size: 0.9em;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background: #333;
+      color: #fff;
+    }
+    .footer {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 0.9em;
+      color: #555;
+    }
+    .actions button {
+      margin: 2px;
+      padding: 5px 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Inventario de Productos</h1>
+
+  <!-- Formulario -->
+  <form id="formProducto">
+    <label>Nombre:</label>
+    <input type="text" id="nombre">
+    <label>Categoría:</label>
+    <select id="categoria">
+      <option value="">Seleccione</option>
+      <option value="Alimentos">Alimentos</option>
+      <option value="Electrónica">Electrónica</option>
+      <option value="Ropa">Ropa</option>
+    </select>
+    <label>Precio:</label>
+    <input type="number" id="precio" step="0.01">
+    <label>Cantidad:</label>
+    <input type="number" id="cantidad">
+    <button type="submit">Agregar Producto</button>
+    <div id="mensajeError" class="error"></div>
+  </form>
+
+  <!-- Buscador -->
+  <input type="text" id="buscar" placeholder="Buscar por nombre...">
+
+  <!-- Filtro -->
+  <select id="filtroCategoria">
+    <option value="">Todas las categorías</option>
+    <option value="Alimentos">Alimentos</option>
+    <option value="Electrónica">Electrónica</option>
+    <option value="Ropa">Ropa</option>
+  </select>
+  <button id="filtroAgotados">Mostrar agotados/pocas existencias</button>
+
+  <!-- Tabla -->
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Categoría</th>
+        <th>Precio</th>
+        <th>Cantidad</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody id="tablaProductos"></tbody>
+  </table>
+
+  <!-- Valor total -->
+  <h3 id="valorTotal">Valor total del inventario: $0.00</h3>
+
+  <div class="footer">
+    Proyecto Inventario de Productos - José, Matrícula: 123456
+  </div>
+
+  <script>
+    const productos = [];
+    const form = document.getElementById("formProducto");
+    const tabla = document.getElementById("tablaProductos");
+    const mensajeError = document.getElementById("mensajeError");
+    const buscarInput = document.getElementById("buscar");
+    const filtroCategoria = document.getElementById("filtroCategoria");
+    const filtroAgotadosBtn = document.getElementById("filtroAgotados");
+    const valorTotal = document.getElementById("valorTotal");
+
+    // Función para renderizar productos
+    function renderProductos(lista) {
+      tabla.innerHTML = "";
+      lista.forEach((p, index) => {
+        const fila = document.createElement("tr");
+        fila.innerHTML = `
+          <td>${p.nombre}</td>
+          <td>${p.categoria}</td>
+          <td>$${p.precio.toFixed(2)}</td>
+          <td>${p.cantidad}</td>
+          <td class="actions">
+            <button onclick="editarProducto(${index})">Editar</button>
+            <button onclick="eliminarProducto(${index})">Eliminar</button>
+          </td>
+        `;
+        tabla.appendChild(fila);
+      });
+      calcularValorTotal(lista);
+    }
+
+    // Validar formulario
+    function validarFormulario(nombre, categoria, precio, cantidad) {
+      if (!nombre || !categoria || precio <= 0 || cantidad < 0) {
+        mensajeError.textContent = "Todos los campos son obligatorios y válidos.";
+        return false;
+      }
+      mensajeError.textContent = "";
+      return true;
+    }
+
+    // Agregar producto
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      const nombre = document.getElementById("nombre").value.trim();
+      const categoria = document.getElementById("categoria").value;
+      const precio = parseFloat(document.getElementById("precio").value);
+      const cantidad = parseInt(document.getElementById("cantidad").value);
+
+      if (validarFormulario(nombre, categoria, precio, cantidad)) {
+        productos.push({ nombre, categoria, precio, cantidad });
+        renderProductos(productos);
+        form.reset();
+      }
+    });
+
+    // Buscar productos
+    buscarInput.addEventListener("input", () => {
+      const texto = buscarInput.value.toLowerCase();
+      const filtrados = productos.filter(p => p.nombre.toLowerCase().includes(texto));
+      renderProductos(filtrados);
+    });
+
+    // Filtrar por categoría
+    filtroCategoria.addEventListener("change", () => {
+      const cat = filtroCategoria.value;
+      const filtrados = cat ? productos.filter(p => p.categoria === cat) : productos;
+      renderProductos(filtrados);
+    });
+
+    // Filtrar agotados/pocas existencias
+    filtroAgotadosBtn.addEventListener("click", () => {
+      const filtrados = productos.filter(p => p.cantidad === 0 || p.cantidad < 5);
+      renderProductos(filtrados);
+    });
+
+    // Editar producto
+    window.editarProducto = function(index) {
+      const p = productos[index];
+      document.getElementById("nombre").value = p.nombre;
+      document.getElementById("categoria").value = p.categoria;
+      document.getElementById("precio").value = p.precio;
+      document.getElementById("cantidad").value = p.cantidad;
+      productos.splice(index, 1); // eliminar temporalmente
+      renderProductos(productos);
+    };
+
+    // Eliminar producto
+    window.eliminarProducto = function(index) {
+      productos.splice(index, 1);
+      renderProductos(productos);
+    };
+
+    // Calcular valor total
+    function calcularValorTotal(lista) {
+      const total = lista.reduce((acc, p) => acc + (p.precio * p.cantidad), 0);
+      valorTotal.textContent = `Valor total del inventario: $${total.toFixed(2)}`;
+    }
+  </script>
+</body>
+</html>

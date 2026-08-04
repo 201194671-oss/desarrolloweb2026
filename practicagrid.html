@@ -1,22 +1,70 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <link rel="stylesheet" href="tarjeta.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documento</title>
+    <title>Tarjeta Curriculum</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .card {
+            width: 300px;
+            height: 200px;
+            perspective: 1000px; /* da profundidad para el efecto 3D */
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .card:hover .card-inner {
+            transform: rotateY(180deg); /* voltea la tarjeta */
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden; /* oculta la cara trasera cuando no está activa */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+            border: 2px solid #333;
+            border-radius: 10px;
+        }
+
+        .card-front {
+            background-color: #4c79f0;
+            color: white;
+        }
+
+        .card-back {
+            background-color: #f0f0f0;
+            color: #333;
+            transform: rotateY(180deg);
+        }
+    </style>
 </head>
-<p>soy jose
-
-</p>
-
 <body>
     <div class="card"> 
         <div class="card-inner">   
-    <p class="card-front">frente:curriculum vitae</p>
-    <p class="card-back">reverso:jose seba corona</p>
-</div>
-</div> 
-
+            <div class="card-front">Frente: Curriculum Vitae</div>
+            <div class="card-back">Reverso: José Seba Corona</div>
+        </div>
+    </div> 
 </body>
 </html>
+

@@ -1,0 +1,134 @@
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 3;
+  background-color: #f1f3f6;
+  color: #131111;
+}
+
+header {
+  background: linear-gradient(135deg, #004e92, #000428);
+  color: rgb(247, 243, 243);
+  padding: 20px;
+}
+.header-container {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  padding: 50px;
+  background: linear-gradient(135deg, #004e92, #000428);
+  color: rgb(252, 248, 248);
+}
+
+.header-left {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.profile-pic {
+  width: 400px;
+  height: 300px;
+  border-radius: 50%;
+  border: 4px solid rgb(24, 1, 1);
+}
+
+.header-right {
+  flex: 1;
+  text-align: left;
+  padding-left: 20px;
+}
+
+.contact-buttons {
+  margin-top: 15px;
+  display: flex;
+  gap: 15px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 05px 10px;
+  background: #85da5e;
+  color: #000;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s, color 0.3s, transform 0.3s;
+}
+
+.btn:hover {
+  background: #fff;
+  color: #004e92;
+  transform: scale(1.05); 
+}
+
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+}
+
+nav ul li {
+  margin: 0 30px;
+}
+
+nav ul li a {
+  color: rgb(14, 13, 13);
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+nav ul li a:hover {
+  color: #ffcc00;
+}
+
+main {
+  padding: 20px;
+}
+
+h3 {
+  border-bottom: 2px solid #010911;
+  padding-bottom: 2px;
+}
+
+.grid {
+  display:flex;
+  gap: 20px;
+  flex-wrap: nowrap;
+}
+
+article {
+  background: rgb(121, 162, 212);
+  padding: 30px;
+  border-radius: 10px;
+  transition: transform 0.3s, background 0.3s;
+}
+
+article:hover {
+  transform: translateY(-5px);
+  background: #eaf4ff;
+}
+
+.skills li {
+  background: #004e92;
+  color: rgb(251, 245, 245);
+  padding: 8px;
+  margin: 5px 0;
+  border-radius: 10px;
+  transition: background 0.3s, color 0.3s;
+}
+
+.skills li:hover {
+  background: #78e05f;
+  color: #000;
+}
+
+footer {
+  text-align: center;
+  background: #000428;
+  color: rgb(228, 220, 220);
+  padding: 15px;
+  margin-top: 10px;
+}

@@ -1,17 +1,28 @@
-// Genera número aleatorio entre 1 y 100
-let numeroSecreto = Math.floor(Math.random() * 100) + 1;
-let intentos = 0;
-let adivinanza;
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Adivina el número</title>
+</head>
+<body>
+    <script>
+        // Genera número aleatorio entre 1 y 100
+        let numeroSecreto = Math.floor(Math.random() * 100) + 1;
+        let intentos = 0;
+        let adivinanza;
 
-do {
-  adivinanza = parseInt(prompt("Adivina el número (1-100):"));
-  intentos++;
+        do {
+          adivinanza = parseInt(prompt("Adivina el número (1-100):"));
+          intentos++;
 
-  if (adivinanza < numeroSecreto) {
-    alert("Muy bajo");
-  } else if (adivinanza > numeroSecreto) {
-    alert("Muy alto");
-  } else {
-    alert("¡Correcto! Lo lograste en " + intentos + " intentos.");
-  }
-} while (adivinanza !== numeroSecreto);
+          if (adivinanza < numeroSecreto) {
+            alert("Muy bajo");
+          } else if (adivinanza > numeroSecreto) {
+            alert("Muy alto");
+          } else {
+            alert("¡Correcto! Lo lograste en " + intentos + " intentos.");
+          }
+        } while (adivinanza !== numeroSecreto);
+    </script>
+</body>
+</html>
